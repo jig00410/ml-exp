@@ -1,23 +1,55 @@
-# Ensemble Learning using Bagging and Boosting
-from sklearn.datasets import load_iris
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
-iris = load_iris()
-X = iris.data
-y = iris.target
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-rf = RandomForestClassifier(n_estimators=100, random_state=42)
-rf.fit(X_train, y_train)
-y_pred = rf.predict(X_test)
-print(" Bagging(Random Forest)")
-print("Accuracy:", accuracy_score(y_test, y_pred))
-print("Classification Report:\n", classification_report(y_test, y_pred))
-print("Confusion Matrix:\n", confusion_matrix(y_test, y_pred))
-ab=AdaBoostClassifier(n_estimators=50, learning_rate=1.0, random_state=42)
-ab.fit(X_train, y_train)
-ab_pred = ab.predict(X_test)
-print("\n Boosting(AdaBoost)")
-print("Accuracy:", accuracy_score(y_test, ab_pred))
-print("Classification Report:\n", classification_report(y_test, ab_pred))
-print("Confusion Matrix:\n", confusion_matrix(y_test, ab_pred))
+import numpy as np
+from fractions import Fraction
+
+# Function to display rounded values
+def display_format(my_vector, my_decimal):
+    return np.round(
+        np.array(my_vector, dtype=float),
+        decimals=my_decimal
+    )
+
+# Initial probability value
+my_dp = Fraction(1, 3)
+
+# Transition Matrix
+Mat = np.matrix([
+    [0, 0, 1],
+    [Fraction(1, 2), 0, 0],
+    [Fraction(1, 2), 1, 0]
+], dtype=object)
+
+# Matrix with all entries = 1/3
+Ex = np.zeros((3, 3), dtype=object)
+Ex[:] = my_dp
+
+# Damping factor
+beta = 0.7
+
+# Google Matrix
+Al = beta * Mat + ((1 - beta) * Ex)
+
+# Initial Rank Vector
+r = np.matrix([
+    [my_dp],
+    [my_dp],
+    [my_dp]
+], dtype=object)
+
+previous_r = r
+
+# Iterations
+for i in range(1, 10):
+    r = Al * r
+    print(display_format(r, 8))
+
+    if (previous_r == r).all():
+        break
+
+    previous_r = r
+
+# Final PageRank
+print("\nFinal:")
+print(display_format(r, 8))
+
+# Sum of PageRank values
+print("sum =", np.sum(np.array(r, dtype=float)))
