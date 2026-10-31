@@ -1,37 +1,60 @@
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, r2_score
-data = {
-'Study_Hours': [2,3,4,5,6,7,8,9,10,11],
-'Attendance' : [60,65,70,75,80,85,90,92,95,98],
-'Assignements' : [3,4,5,5,6,7,8,8,9,10],
-'Marks' : [40,45,50,55,60,65,70,78,85,90]
+cat("CONDITIONAL BRANCHING IN R\n")
+cat("--------------------------\n")
+
+num <- as.numeric(readline("Enter a number: "))
+
+cat("\n1. Simple IF Statement\n")
+if (num > 0) {
+  cat("The number is positive.\n")
 }
-df = pd.DataFrame(data)
-# independent variables
-X = df[['Study_Hours','Attendance','Assignements']]
-# dependent variable
-y = df['Marks']
-#split dataset
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-#Create model
-model = LinearRegression()
-#train model
-model.fit(X_train, y_train)
-#make predictions
-y_pred = model.predict(X_test)
-# results
-print("Regression coefficients:")
-print(model.coef_)
-print("\nIntercept:")
-print(model.intercept_)
-print("\nActual values:")
-print(y_test.values)
-print("\nPredicted values:")
-print(y_pred)
-#Evaluation
-mse = mean_squared_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
-print("\nMean Squared Error:", mse)
-print("R-squared:", r2)
+
+cat("\n2. IF-ELSE Statement\n")
+if (num %% 2 == 0) {
+  cat("The number is even.\n")
+} else {
+  cat("The number is odd.\n")
+}
+
+cat("\n3. IF-ELSE-IF Ladder\n")
+
+if (num > 0) {
+  cat("Number is positive.\n")
+} else if (num < 0) {
+  cat("Number is negative.\n")
+} else {
+  cat("Number is zero.\n")
+}
+
+cat("\n4. Nested IF Statement\n")
+
+if (num >= 0) {
+  if (num == 0) {
+    cat("The number is zero.\n")
+  } else {
+    cat("The number is positive.\n")
+  }
+} else {
+  cat("The number is negative.\n")
+}
+
+cat("\n5. Grade Calculation\n")
+
+marks <- as.numeric(readline("Enter marks (0-100): "))
+
+if (marks < 0 || marks > 100) {
+  cat("Invalid marks! Enter marks between 0 and 100.\n")
+} else if (marks >= 90) {
+  cat("Grade: A+\n")
+} else if (marks >= 80) {
+  cat("Grade: A\n")
+} else if (marks >= 70) {
+  cat("Grade: B\n")
+} else if (marks >= 60) {
+  cat("Grade: C\n")
+} else if (marks >= 40) {
+  cat("Grade: D\n")
+} else {
+  cat("Grade: F (Fail)\n")
+}
+
+cat("\nProgram executed successfully!\n")
